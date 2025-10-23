@@ -30,7 +30,7 @@ chmod +x scripts/push-images.sh
 **This pushes:**
 - ✅ `frontimg:latest` → ACR
 - ✅ `backend-test:latest` → ACR
-- ✅ Also pushes to Docker Hub (abdullahkhlead)
+- ✅ Also pushes to Docker Hub (your-dockerhub-username)
 
 ### Step 4: Deploy Infrastructure with Terraform
 ```bash
@@ -43,7 +43,7 @@ terraform init
 cat > terraform.tfvars << EOF
 prefix = "errorteam"
 solution_resource_group_name = "errorteam-final-solution"
-acr_id = "/subscriptions/4421688c-0a8d-4588-8dd0-338c5271d0af/resourceGroups/errorteam-final-infra/providers/Microsoft.ContainerRegistry/registries/errorteamacr"
+acr_id = "/subscriptions/your-subscription-id/resourceGroups/errorteam-final-infra/providers/Microsoft.ContainerRegistry/registries/errorteamacr"
 db_admin_password = "YourSecurePassword123!"
 EOF
 
@@ -103,11 +103,11 @@ Add these secrets to your GitHub repository:
 2. Add these secrets:
 
 ```
-ARM_SUBSCRIPTION_ID = 4421688c-0a8d-4588-8dd0-338c5271d0af
-ARM_TENANT_ID = 84f58ce9-43c8-4932-b908-591a8a3007d3
-ARM_CLIENT_ID = d55ac64f-cac6-41fd-9a59-6446e2a138d1
+ARM_SUBSCRIPTION_ID = your-subscription-id
+ARM_TENANT_ID = your-tenant-id
+ARM_CLIENT_ID = your-client-id
 ARM_CLIENT_SECRET = your-client-secret-here
-DOCKER_HUB_USERNAME = abdullahkhlead
+DOCKER_HUB_USERNAME = your-dockerhub-username
 DOCKER_HUB_TOKEN = your-docker-hub-token-here
 ```
 

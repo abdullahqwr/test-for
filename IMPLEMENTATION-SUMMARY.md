@@ -254,7 +254,7 @@ kubectl port-forward -n monitoring svc/grafana 3000:3000
 ## 📊 Resource Groups Layout
 
 ```
-Azure Subscription: 4421688c-0a8d-4588-8dd0-338c5271d0af
+Azure Subscription: your-subscription-id
 │
 ├─► errorteam-tfstate (NEW! ISOLATED)
 │   └─► Storage Account: errorteamtfstate

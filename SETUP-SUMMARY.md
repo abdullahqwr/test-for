@@ -74,7 +74,7 @@ final-project-5/
 - Uses your EXISTING Docker images:
   - `frontimg:latest` → `errorteamacr.azurecr.io/errorteam-frontend:latest`
   - `backend-test:latest` → `errorteamacr.azurecr.io/errorteam-backend:latest`
-- Also pushes to Docker Hub (abdullahkhlead)
+- Also pushes to Docker Hub (your-dockerhub-username)
 - NO REBUILDING - uses what you already have!
 
 ### ✅ 4. Write skeleton infra code and deploy it
