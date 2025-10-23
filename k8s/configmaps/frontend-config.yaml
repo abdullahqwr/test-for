@@ -1,0 +1,10 @@
+# Error Team - Frontend ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: errorteam
+  labels:
+    team: error-team
+data:
+  api_base_url: "http://backend-service:8080"

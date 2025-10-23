@@ -1,0 +1,117 @@
+# Error Team - Grafana Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    team: error-team
+    app: grafana
+    component: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        team: error-team
+        app: grafana
+        component: monitoring
+    spec:
+      securityContext:
+        runAsUser: 472
+        runAsNonRoot: true
+        fsGroup: 472
+      containers:
+        - name: grafana
+          image: grafana/grafana:10.2.2
+          ports:
+            - name: grafana
+              containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              value: "admin"
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: "errorteam2025"  # CHANGE THIS IN PRODUCTION!
+            - name: GF_INSTALL_PLUGINS
+              value: ""
+            - name: GF_SERVER_ROOT_URL
+              value: "http://grafana.monitoring.svc.cluster.local:3000"
+            - name: GF_AUTH_ANONYMOUS_ENABLED
+              value: "false"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
+            - name: grafana-datasources
+              mountPath: /etc/grafana/provisioning/datasources
+            - name: grafana-dashboards-config
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: grafana-dashboard-kubernetes
+              mountPath: /var/lib/grafana/dashboards/kubernetes-cluster.json
+              subPath: kubernetes-cluster.json
+            - name: grafana-dashboard-burgerbuilder
+              mountPath: /var/lib/grafana/dashboards/burgerbuilder-app.json
+              subPath: burgerbuilder-app.json
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 5
+            timeoutSeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+      volumes:
+        - name: grafana-storage
+          emptyDir: {}
+          # For production, use PersistentVolumeClaim:
+          # persistentVolumeClaim:
+          #   claimName: grafana-storage
+        - name: grafana-datasources
+          configMap:
+            name: grafana-datasources
+        - name: grafana-dashboards-config
+          configMap:
+            name: grafana-dashboards-config
+        - name: grafana-dashboard-kubernetes
+          configMap:
+            name: grafana-dashboard-kubernetes
+        - name: grafana-dashboard-burgerbuilder
+          configMap:
+            name: grafana-dashboard-burgerbuilder
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    team: error-team
+    app: grafana
+    component: monitoring
+spec:
+  type: ClusterIP
+  ports:
+    - name: grafana
+      port: 3000
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app: grafana

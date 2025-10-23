@@ -1,0 +1,36 @@
+# Error Team - Terraform Variables Example
+# Copy this file to terraform.tfvars and update with your values
+
+# Project Configuration
+prefix = "errorteam"
+solution_resource_group_name = "errorteam-final-solution"
+
+# Azure Container Registry ID
+# Get this from: az acr show --name errorteamacr --query "id" -o tsv
+acr_id = "/subscriptions/4421688c-0a8d-4588-8dd0-338c5271d0af/resourceGroups/errorteam-final-infra/providers/Microsoft.ContainerRegistry/registries/errorteamacr"
+
+# AKS Configuration
+aks_node_count = 2
+aks_node_vm_size = "Standard_D2s_v3"
+kubernetes_version = "1.28"
+
+# Networking
+vnet_address_space = ["10.1.0.0/16"]
+aks_subnet_prefix = "10.1.1.0/24"
+db_subnet_prefix = "10.1.2.0/24"
+appgw_subnet_prefix = "10.1.3.0/24"
+
+# Database
+db_name = "burgerbuilder"
+db_admin_username = "errorteamadmin"
+db_admin_password = "YourSecurePassword123!"  # CHANGE THIS!
+db_sku_name = "B_Standard_B1ms"
+db_storage_mb = 32768
+
+# Tags
+tags = {
+  Team = "Error Team"
+  Project = "BurgerBuilder"
+  Environment = "Production"
+  ManagedBy = "Terraform"
+}

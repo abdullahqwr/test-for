@@ -1,0 +1,32 @@
+# Error Team - Monitoring Ingress (Grafana Access)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: monitoring-ingress
+  namespace: monitoring
+  labels:
+    team: error-team
+    component: monitoring
+  annotations:
+    # AGIC annotations
+    kubernetes.io/ingress.class: "azure/application-gateway"
+    appgw.ingress.kubernetes.io/backend-path-prefix: "/"
+    appgw.ingress.kubernetes.io/health-probe-path: "/api/health"
+    appgw.ingress.kubernetes.io/request-timeout: "60"
+spec:
+  rules:
+  - host: grafana.errorteam.com  # Change to your domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 3000
+  # Optional: Add TLS
+  # tls:
+  # - hosts:
+  #   - grafana.errorteam.com
+  #   secretName: grafana-tls

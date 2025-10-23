@@ -1,0 +1,9 @@
+# Error Team - Kubernetes Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: errorteam
+  labels:
+    name: errorteam
+    team: error-team
+    project: burgerbuilder

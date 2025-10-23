@@ -1,0 +1,8 @@
+# Error Team - Monitoring Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: monitoring
+  labels:
+    team: error-team
+    component: monitoring

@@ -1,0 +1,14 @@
+# Error Team - Backend ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: errorteam
+  labels:
+    team: error-team
+data:
+  db_host: "errorteam-postgres.postgres.database.azure.com"
+  db_port: "5432"
+  db_name: "burgerbuilder"
+  db_driver: "org.postgresql.Driver"
+  cors_allowed_origins: "https://burgerbuilder.errorteam.com"
